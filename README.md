@@ -1,3 +1,3 @@
 # natural-language-processing
-Experimental repository
-MIT License
+* Experimental repository
+* MIT License
