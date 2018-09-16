@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #source - https://www.youtube.com/watch?v=DDByc9LyMV8
-#Recurrent nural network for sentimental analysis of imdb movie reviews
+#Recurrent neural network for sentimental analysis of imdb movie reviews
 
 import tensorflow as tf
 import numpy as np
@@ -34,8 +34,10 @@ x_train_text[1]
 
 y_train[1]
 
-num_words = 10000
+#2. Accuracy reduced by adding 10,000 more words by 2.6% making it 84.96%
+num_words = 20000
 tokenizer = Tokenizer(num_words=num_words)
+
 
 tokenizer.fit_on_texts(data_text)
 
@@ -77,7 +79,11 @@ def tokens_to_string(tokens):
 x_train_text[1]
 tokens_to_string(x_train_tokens[1])
 model = Sequential()
-embedding_size = 8
+
+#3. increased value from 8 to 200, time 12ms/step to 17ms/step, accuracy up by 1.86%
+embedding_size = 200
+
+
 model.add(Embedding(input_dim=num_words,output_dim=embedding_size,input_length=max_tokens,name='layer_embedding'))
 model.add(GRU(units=16, return_sequences=True))
 model.add(GRU(units=8, return_sequences=True))
@@ -89,7 +95,7 @@ model.compile(loss='binary_crossentropy',
               metrics=['accuracy'])
 model.summary()
 
-#Accuracy increases approx. 1% making it to 87.6% by adding 2 more epochs
+#1. Accuracy increases approx. 1% making it to 87.6% by adding 2 more epochs
 model.fit(x_train_pad, y_train,
           validation_split=0.05, epochs=5, batch_size=64)
 result = model.evaluate(x_test_pad, y_test)
