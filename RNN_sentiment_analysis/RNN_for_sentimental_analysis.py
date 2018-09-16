@@ -19,7 +19,7 @@ tf.__version__
 tf.keras.__version__
 
 import imdb
-
+imdb.data_dir = "data/IMDB/"
 imdb.maybe_download_and_extract()
 
 x_train_text, y_train = imdb.load_data(train=True)
@@ -88,9 +88,13 @@ model.compile(loss='binary_crossentropy',
               optimizer=optimizer,
               metrics=['accuracy'])
 model.summary()
+
+#Accuracy increases approx. 1% making it to 87.6% by adding 2 more epochs
 model.fit(x_train_pad, y_train,
-          validation_split=0.05, epochs=3, batch_size=64)
+          validation_split=0.05, epochs=5, batch_size=64)
 result = model.evaluate(x_test_pad, y_test)
+
+
 print("Accuracy: {0:.2%}".format(result[1]))
 y_pred = model.predict(x=x_test_pad[0:1000])
 y_pred = y_pred.T[0]
